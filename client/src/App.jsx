@@ -13,6 +13,7 @@ import JobPostingForm from "./Pages/Employer/JobPostingForm";
 import ManageJobs from "./Pages/Employer/ManageJobs";
 import ApplicationViewer from "./Pages/Employer/ApplicationViewer";
 import EmployerProfilePage from "./Pages/Employer/EmployerProfilePage";
+import NotFound from "./Pages/Auth/NotFound";
 
 function App() {
   return (
@@ -37,6 +38,8 @@ function App() {
           <Route path="/manageJobs" element={<ManageJobs />} />
           <Route path="/applicants" element={<ApplicationViewer />} />
           <Route path="/companyProfile" element={<EmployerProfilePage />} />
+
+           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
 
