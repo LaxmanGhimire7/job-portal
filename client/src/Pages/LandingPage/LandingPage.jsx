@@ -1,11 +1,11 @@
-import React from 'react'
+import Header from './components/Header'
 
 function LandingPage() {
   return (
-    <div>
-      LandingPage
+    <div className='min-h-screen'>
+     <Header />
     </div>
   )
 }
 
-export default LandingPage
+export default LandingPage;

@@ -1,9 +1,11 @@
 import React from 'react'
+import { Outlet } from 'react-router-dom'
 
-function ProtectedRoutes() {
+const ProtectedRoutes = ({requiredRole}) => {
   return (
     <div>
-      
+        {/* will implement later */}
+      <Outlet />
     </div>
   )
 }
