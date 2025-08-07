@@ -9,7 +9,7 @@ function Header() {
   return (
     <>
       <div>
-      hello
+      hello this is job portal
       </div>
     </>
   )
