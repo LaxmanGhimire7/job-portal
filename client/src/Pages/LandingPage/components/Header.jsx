@@ -1,5 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
+import { Briefcase } from "lucide-react";
 
 function Header() {
     const isAuthenticated = true;
@@ -8,9 +9,7 @@ function Header() {
 
   return (
     <>
-      <div>
-      hello this is job portal
-      </div>
+    
     </>
   )
 } 
