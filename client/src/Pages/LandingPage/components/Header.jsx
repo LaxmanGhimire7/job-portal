@@ -9,9 +9,13 @@ function Header() {
 
   return (
     <>
-    
+    <div>
+      <div>
+        <Briefcase className="w-5 h-5 " />  
+      </div>
+    </div>
     </>
   )
 } 
 
-export default Header
+export default Header;
