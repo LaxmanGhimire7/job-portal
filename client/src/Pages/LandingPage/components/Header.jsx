@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 
 function Header() {
   const isAuthenticated = true;
-  const user = { fullName: "Lakxh", role: "employer" };
+  const user = { fullName: "Laxman", role: "employer" };
   const navigate = useNavigate();
 
   return (
