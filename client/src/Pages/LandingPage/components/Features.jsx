@@ -1,9 +1,15 @@
 import { employerFeatures, jobSeekerFeatures } from "../../../utils/data";
+import { motion } from "framer-motion";
 
 function Features() {
   return (
     <div className="bg-white">
-      <div className="">
+      <motion.div
+        initial={{ opacity: 0, y: 60 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 1.2 }}
+      >
         <h1 className="text-center text-5xl font-bold text-gray-900">
           Everything You Need to{" "}
           <span className="block bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
@@ -15,7 +21,7 @@ function Features() {
           Whether you're looking for your next opportunity or the perfect
           candidate, we have the tools and features to make it happen.
         </p>
-      </div>
+      </motion.div>
 
       {/* New card from here */}
       <div className="grid md:grid-cols-2 gap-16 lg:gap-24 mt-16">
@@ -64,14 +70,20 @@ function Features() {
           <div className="space-y-8 ">
             {employerFeatures.map((item, index) => {
               return (
-                <div className="group rounded-2xl w-2xl ml-4 mt- space-x-4 p-7 flex items-start gap-5 hover:bg-purple-50 transition-all duration-300 cursor-pointer "
-                key={index}>
+                <div
+                  className="group rounded-2xl w-2xl ml-4 mt- space-x-4 p-7 flex items-start gap-5 hover:bg-purple-50 transition-all duration-300 cursor-pointer "
+                  key={index}
+                >
                   <div className="bg-purple-100 p-3 flex group-hover:bg-purple-200 rounded-xl">
                     <item.icon className="text-purple-600" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-gray-900 text-xl">{item.title}</h3>
-                    <p className="mt-2 font-medium text-gray-600">{item.description}</p>
+                    <h3 className="font-bold text-gray-900 text-xl">
+                      {item.title}
+                    </h3>
+                    <p className="mt-2 font-medium text-gray-600">
+                      {item.description}
+                    </p>
                   </div>
                 </div>
               );
