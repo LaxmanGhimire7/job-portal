@@ -11,6 +11,11 @@ import {
   AlertCircle,
   Loader,
 } from "lucide-react";
+import {
+  validateAvatar,
+  validatePassword,
+  validateEmail,
+} from "../../utils/helper.js";
 // import { motion } from "lucide-react";
 import { useState } from "react";
 
@@ -30,6 +35,21 @@ function SignUp() {
     avatarPreview: false,
     success: false,
   });
+
+  const validateForm = () => {
+    const errors = {
+      email: validateEmail(formData.email),
+      password: validatePassword(formData.password)
+    };
+
+    // Remove empty errors
+    Object.keys(errors).forEach(key => {
+      if (!errors[key]) delete errors[key];
+    });
+
+    setFormState(prev => ({ ...prev, errors }));
+    return Object.keys(errors).length === 0;
+  };
 
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -60,9 +80,39 @@ function SignUp() {
     }
   };
 
+  const formSubmit = (e) => {
+    e.preventDefault();
+
+    if (!validateForm()) return;
+    setFormState((prev) => ({ ...prev, loading: true }));
+    try {
+    } catch (error) {
+      setFormState((prev) => ({
+        ...prev,
+        loading: false,
+        errors: {
+          errors: {
+            submit:
+              error.response?.message?.data ||
+              "Login credientials do not match",
+          },
+        },
+      }));
+    }
+  };
+
   const handleAvatarChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      const error = validateAvatar(file);
+      if (error) {
+        setFormState((prev) => ({
+          ...prev,
+          errors: { ...prev.errors, avatar: error },
+        }));
+        return;
+      }
+
       setFormData((prev) => ({ ...prev, avatar: file }));
 
       // Create preview
@@ -89,17 +139,25 @@ function SignUp() {
         </div>
 
         {/* This is for from */}
-        <form className="space-y-5">
+        <form className="space-y-5" onSubmit={formSubmit}>
           <div>
             <label>Full Name</label>
             <div>
               <input
                 type="text"
                 name="fullName"
+                value={formData.fullName}
+                onChange={handleInput}
                 placeholder="Enter Your Full Name"
                 className="border w-full py-2 px-4 rounded-xl"
               />
             </div>
+            {formState.errors.fullName && (
+              <p className="text-red-500 text-sm mt-1 flex items-center">
+                <AlertCircle className="w-4 h-4 mr-1" />
+                {formState.errors.fullName}
+              </p>
+            )}
           </div>
 
           <div>
@@ -108,6 +166,8 @@ function SignUp() {
               <input
                 type="email"
                 name="email"
+                value={formData.email}
+                onChange={handleInput}
                 placeholder="Enter Your Email"
                 className="border w-full py-2 px-4 rounded-xl"
               />
@@ -121,6 +181,8 @@ function SignUp() {
               <input
                 type={formState.showPassword ? "text" : "password"}
                 name="password"
+                value={formData.password}
+                onChange={handleInput}
                 placeholder="Enter Your Password"
                 className="border w-full py-2 pl-10 px-4 rounded-xl"
               />
@@ -225,13 +287,13 @@ function SignUp() {
               </button>
             </div>
           </div>
-        </form>
-
-        {/* Submit Button */}
+           {/* Submit Button */}
         <div>
-          <button disabled={formState.loading}
-          type="submit"
-          className="w-full mt-5 bg-gradient-to-r from-blue-600 to-purple-600 py-2 px-4 rounded-xl text-white font-medium flex text-center justify-center disabled:cursor-not-allowed ">
+          <button
+            disabled={formState.loading}
+            type="submit"
+            className="w-full mt-5 bg-gradient-to-r from-blue-600 to-purple-600 py-2 px-4 rounded-xl text-white font-medium flex text-center justify-center disabled:cursor-not-allowed "
+          >
             {formState.loading ? (
               <>
                 <Loader className="w-4 h-4 animate-spin" />
@@ -242,6 +304,9 @@ function SignUp() {
             )}
           </button>
         </div>
+        </form>
+
+       
       </div>
     </div>
   );
