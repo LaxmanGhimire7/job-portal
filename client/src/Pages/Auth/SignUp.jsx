@@ -42,7 +42,7 @@ function SignUp() {
     if (formState.errors[name]) {
       setFormState((prev) => ({
         ...prev,
-        errors: { ...prev, [name]: "" },
+        errors: { ...prev.errors, [name]: "" },
       }));
     }
   };
@@ -63,15 +63,6 @@ function SignUp() {
   const handleAvatarChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // const error = validateAvatar(file);
-      // if (error) {
-      //   setFormState((prev) => ({
-      //     ...prev,
-      //     errors: { ...prev.errors, avatar: error },
-      //   }));
-      //   return;
-      // }
-
       setFormData((prev) => ({ ...prev, avatar: file }));
 
       // Create preview
@@ -104,6 +95,7 @@ function SignUp() {
             <div>
               <input
                 type="text"
+                name="fullName"
                 placeholder="Enter Your Full Name"
                 className="border w-full py-2 px-4 rounded-xl"
               />
@@ -128,24 +120,25 @@ function SignUp() {
               <Lock className="absolute left-2 text-gray-500 top-1/2 -translate-y-1/2" />
               <input
                 type={formState.showPassword ? "text" : "password"}
-                name="email"
+                name="password"
                 placeholder="Enter Your Password"
                 className="border w-full py-2 pl-10 px-4 rounded-xl"
               />
-              <button type="button" onClick={()=>{
-                setFormState((prev)=>({
-                  ...prev,
-                  showPassword: !prev.showPassword
-                }))
-              }}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 ">
-                {formState.showPassword ? 
-                (<Eye className="text-blue-600 w-5 h-5"/>)
-                :
-                (<EyeOff className="w-5 h-5" />
-
+              <button
+                type="button"
+                onClick={() => {
+                  setFormState((prev) => ({
+                    ...prev,
+                    showPassword: !prev.showPassword,
+                  }));
+                }}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 "
+              >
+                {formState.showPassword ? (
+                  <Eye className="text-blue-600 w-5 h-5" />
+                ) : (
+                  <EyeOff className="w-5 h-5" />
                 )}
-
               </button>
             </div>
           </div>
@@ -192,13 +185,63 @@ function SignUp() {
           </div>
 
           {/*  */}
-          <div>
+          <div className="">
             <label>
               I am a <span className="text-red-600">*</span>
             </label>
-            <div>input</div>
+            <div className="grid grid-cols-2 gap-4">
+              <button
+                type="button"
+                onClick={() => {
+                  handleRoleChange("jobseeker");
+                }}
+                className={`border p-4 transition-all rounded-xl ${
+                  formData.role === "jobseeker"
+                    ? "bg-blue-50 border-blue-600 text-blue-600"
+                    : "border-gray-200 hover:border-gray-300"
+                } `}
+              >
+                <UserCheck className="mx-auto w-8 h-8 mb-2" />
+                <div className="font-medium">Job Seeker</div>
+                <div className="text-xs text-gray-500">
+                  Looking for opportunities
+                </div>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  handleRoleChange("employer");
+                }}
+                className={`border p-4 rounded-xl transition-all ${
+                  formData.role === "employer"
+                    ? "bg-blue-50 border-blue-600 text-blue-600"
+                    : "border-gray-200 hover:border-gray-300"
+                } `}
+              >
+                <Building2 className="mx-auto w-8 h-8 mb-2" />
+                <div className="font-medium">Employer</div>
+                <div className="text-xs text-gray-500">Hiring Talent</div>
+              </button>
+            </div>
           </div>
         </form>
+
+        {/* Submit Button */}
+        <div>
+          <button disabled={formState.loading}
+          type="submit"
+          className="w-full mt-5 bg-gradient-to-r from-blue-600 to-purple-600 py-2 px-4 rounded-xl text-white font-medium flex text-center justify-center disabled:cursor-not-allowed ">
+            {formState.loading ? (
+              <>
+                <Loader className="w-4 h-4 animate-spin" />
+                <span>Creating Account</span>
+              </>
+            ) : (
+              <span>Create Account</span>
+            )}
+          </button>
+        </div>
       </div>
     </div>
   );
