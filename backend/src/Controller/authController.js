@@ -12,6 +12,6 @@ const register = async(req, res)=>{
         }
         const hashedPassword = password.bcrypt
     } catch (error) {
-        
+        res.status(res.error)
     }
 }
