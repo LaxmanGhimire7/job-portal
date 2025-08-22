@@ -5,7 +5,13 @@ const app = express();
 const connectDb = require("./src/Db/config.js")
 connectDb();
 
-app.use(express.json())
+app.use(express.json());
+
+
+const authRoutes = require("./src/Routes/authRoutes.js");
+
+app.use("/api/auth", authRoutes);
+
 
 const PORT = process.env.PORT || 9000;
 
